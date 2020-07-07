@@ -117,13 +117,11 @@ Kubectl get pods -o wide
 
 **kubectl create deployment apachewebserver --image=vimal13/apache-webserver-php**
 
+![EKS15](https://user-images.githubusercontent.com/51450944/86854458-7936b300-c086-11ea-972c-7dffecdcc8e7.PNG)
  
-
 > I will create a new index.php page and replace the existing index.php folder inside this pod. My page is running @ cd /var/www/html and I will copy a new page here. Once you deploy a new page will be display to you at your LB external IP
 
 **kubectl cp index.php apachewebserver-86bb9d8c54-vqzzp:/var/www/html/index.php**
-
- 
 
 > But this storage is ephemeral(temporary), as soon as this pod down you will lose this page
 > So, I need a permanent storage/page for this. So, I am going to attach a persistent storage to it.
@@ -132,18 +130,16 @@ Kubectl get pods -o wide
 > I’ll create an yml file for PVC storage on EKS cluster. And deploy this pvc
 **Kubectl create -f pvc.yml**
  
-
- 
+![EKS17](https://user-images.githubusercontent.com/51450944/86854550-9ec3bc80-c086-11ea-82d9-4a7aa56e456b.PNG)
 
 > But you will see PV is not created. Why ? because storage class is the one who create HDD. Acc to storage class has one annotation, that volume binding mode wait for first consumer. Anyone uses this gp2 they get storage from ebs. So once pod request for this they will create a PV and attach it. I’ll edit the deployment and attach the persistentvolume to this PVC
 
-
- 
+![EKS18](https://user-images.githubusercontent.com/51450944/86854558-a2574380-c086-11ea-8b82-697b064ccb6b.PNG) 
 
 > Let’s now create a new Storage Class 
 
  
-
+![EKS21](https://user-images.githubusercontent.com/51450944/86854577-ab481500-c086-11ea-849f-6da2d797d030.PNG)
 
 
 > Once Storage Class is created, we need to attach this to PVC so that it uses new IO StorageClass
