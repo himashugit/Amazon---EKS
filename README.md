@@ -34,6 +34,7 @@ from other clusters or other AWS accounts, except as authorized with Kubernetes 
 This secure and highly available configuration makes Amazon EKS reliable and recommended for
 production workloads.
 
+![EKS1](https://user-images.githubusercontent.com/51450944/86850620-9451f480-c07f-11ea-8426-c9dce05b9cb3.PNG)
  
 ## There are 2 ways to start your K8s cluster on AWS
 1.	Command Line – eksctl
@@ -45,42 +46,41 @@ https://awscli.amazonaws.com/AWSCLIV2.msi
 
 2.  Run the downloaded MSI installer and follow the onscreen instructions. By default, the AWS CLI install c:/Programfiles/
 
- 
-
+![EKS2](https://user-images.githubusercontent.com/51450944/86850624-987e1200-c07f-11ea-8708-32476e000057.PNG)
 
 > Create an IAM user and configure AWS, put below detail, more info https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
 
- 
-
+ ![EKS3](https://user-images.githubusercontent.com/51450944/86850634-9ddb5c80-c07f-11ea-9b2c-ca661b0b8962.PNG)
 
   Also download eksctl to work with EKS cluster
 
 > Once you downloaded you can write a yaml based config file and deploy this to AWS
 
+![EKS4](https://user-images.githubusercontent.com/51450944/86850683-b6e40d80-c07f-11ea-9b48-17c0e2e0cc21.PNG)
+
+ Use  -           **eksctl create -f cluster.yml**
+
+ this will take 5-10 min to deploy and launch. Behind the scene Cloud Formation stack will do the setup for you, networking,SG, etc….
  
-
-Use -           **eksctl create -f cluster.yml**
-
-& this will take 5-10 min to deploy and launch. Behind the scene Cloud Formation stack will do the setup for you, networking,SG, etc….
-
- 
+ ![EKS5](https://user-images.githubusercontent.com/51450944/86850687-ba779480-c07f-11ea-96fe-a6f74832749e.PNG)
 
 > You will see 3 nodes are deployed by EKS for you using Cloud Formation stack
 
- 
+ ![EKS6](https://user-images.githubusercontent.com/51450944/86850696-be0b1b80-c07f-11ea-9a80-d69eb1fdd9d3.PNG)
 
 > Now lets see using kubectl command to interact with the cluster and nodes
 
- 
+ ![EKS7](https://user-images.githubusercontent.com/51450944/86850702-c19ea280-c07f-11ea-8ab3-ecccbbbfd14a.PNG)
 
 > If you want to see what node contain. You can use describe command to see
 
-Use kubectl describe node (nodeid)
+Use **kubectl describe node (nodeid)**
 
+![EKS8](https://user-images.githubusercontent.com/51450944/86850715-c5322980-c07f-11ea-9a93-25fccce219f1.PNG)
 
-
+ > Let’s create a namespace to mange the resources(rs/deployment) and policies which we are going to set on the nodes in it with a secure token
  
-> Let’s create a namespace to mange the resources(rs/deployment) and policies which we are going to set on the nodes in it with a secure token
+ **kubectl create ns nameofyourchoice**
 
  
 
@@ -90,11 +90,11 @@ Use kubectl describe node (nodeid)
 
 **Kubectl create deployment apachewebserver1 –image=himashu07/apacheweb:latest**
 
- 
+ ![EKS9](https://user-images.githubusercontent.com/51450944/86850735-cb280a80-c07f-11ea-9461-579ed1372623.PNG)
 
 You can check your POD should be running using – kubectl get pods
 
- 
+
 
 IF you need to check on which node this pod has been launched in AWS EKS. Check out Node IP
 
@@ -106,12 +106,12 @@ Kubectl get pods -o wide
 
 **Kubectl scale deployment apachewebserver1 –replicas=4**
 
- 
+  ![EKS10](https://user-images.githubusercontent.com/51450944/86850746-cebb9180-c07f-11ea-9943-2f89708557c4.PNG)
 
 > Let’s expose the deployment(port 80) so that apache web server can be access outside world and this is backed by LB to share web server load. If you check the service you can   grab the external IP and access it.
 **Kubectl expose deployment apachewebserver1 –type=LoadBalancer –port=80**
 
- 
+ ![EKS11](https://user-images.githubusercontent.com/51450944/86850755-d24f1880-c07f-11ea-8412-677fe8520266.PNG)
 
 > Let’s create a new deployment with a new apache web server image
 
